@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { Container, VStack, HStack, Box, Button, Text, Progress, FormControl, FormLabel, Input, Textarea } from "@chakra-ui/react";
-import { FaCheckCircle } from "react-icons/fa";
+import { Container, VStack, HStack, Box, Button, Text, Progress, FormControl, FormLabel, Input, Textarea, Select } from "@chakra-ui/react";
+import { FaCheckCircle, FaClipboardList, FaFileInvoice, FaTruck, FaDollarSign } from "react-icons/fa";
 
-const steps = ["Purchase Requisition", "Purchase Order", "Goods Receipt", "Invoice"];
+const steps = [
+  { label: "Purchase Requisition", icon: FaClipboardList },
+  { label: "Purchase Order", icon: FaFileInvoice },
+  { label: "Goods Receipt", icon: FaTruck },
+  { label: "Invoice", icon: FaDollarSign },
+];
 
 const StepContent = ({ step }) => {
   switch (step) {
@@ -10,12 +15,31 @@ const StepContent = ({ step }) => {
       return (
         <VStack spacing={4} width="100%">
           <FormControl>
-            <FormLabel>Requisition Title</FormLabel>
-            <Input placeholder="Enter title" />
+            <FormLabel>PR Number</FormLabel>
+            <Input placeholder="Enter PR number" />
           </FormControl>
           <FormControl>
-            <FormLabel>Description</FormLabel>
-            <Textarea placeholder="Enter description" />
+            <FormLabel>Request By</FormLabel>
+            <Input placeholder="Enter requester's name" />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Request Date</FormLabel>
+            <Input type="date" />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Status</FormLabel>
+            <Select placeholder="Select status">
+              <option value="approved">Approved</option>
+              <option value="pending">Pending</option>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Department</FormLabel>
+            <Input placeholder="Enter department" />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Items</FormLabel>
+            <Textarea placeholder="Enter items" />
           </FormControl>
         </VStack>
       );
@@ -78,9 +102,10 @@ const Index = () => {
     <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
       <VStack spacing={8} width="100%">
         <HStack spacing={4} width="100%">
-          {steps.map((step, index) => (
+          {steps.map(({ label, icon: Icon }, index) => (
             <Box key={index} flex="1" textAlign="center">
-              <Text fontSize="sm">{step}</Text>
+              <Text fontSize="sm">{label}</Text>
+              <Icon color={index <= activeStep ? "green" : "gray"} />
               {index <= activeStep ? <FaCheckCircle color="green" /> : <Box height="24px" />}
             </Box>
           ))}
