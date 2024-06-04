@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, VStack, HStack, Box, Button, Text, Progress, FormControl, FormLabel, Input, Textarea, Select } from "@chakra-ui/react";
+import { Container, VStack, HStack, Box, Button, Text, Progress, FormControl, FormLabel, Input, Textarea, Select, SimpleGrid } from "@chakra-ui/react";
 import { FaCheckCircle, FaClipboardList, FaFileInvoice, FaTruck, FaDollarSign } from "react-icons/fa";
 
 const steps = [
@@ -101,17 +101,19 @@ const Index = () => {
   return (
     <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
       <VStack spacing={8} width="100%">
-        <HStack spacing={4} width="100%">
+        <HStack spacing={4} width="100%" justifyContent="space-between">
           {steps.map(({ label, icon: Icon }, index) => (
             <Box key={index} flex="1" textAlign="center">
               <Text fontSize="sm">{label}</Text>
-              <Icon color={index <= activeStep ? "green" : "gray"} />
-              {index <= activeStep ? <FaCheckCircle color="green" /> : <Box height="24px" />}
+              <Icon color={index <= activeStep ? "teal.500" : "gray.300"} boxSize={6} />
+              {index <= activeStep ? <FaCheckCircle color="teal.500" boxSize={4} /> : <Box height="24px" />}
             </Box>
           ))}
         </HStack>
         <Progress value={(activeStep / (steps.length - 1)) * 100} width="100%" />
-        <StepContent step={activeStep} />
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} width="100%">
+          <StepContent step={activeStep} />
+        </SimpleGrid>
         <HStack spacing={4}>
           <Button onClick={handleBack} isDisabled={activeStep === 0}>
             Back
